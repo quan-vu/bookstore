@@ -15,7 +15,6 @@ Requirements
 
 - The project should have units and integrations tests.
 - Dockerize your project and make sure that it will work out of the box.
-- Put your code on Github or Gitlab.
 - Catch all edge cases and aim for the best run-time possible.
 - You are free to use any architecture, design, and implementation method, but not external on-premise or cloud services.
 
@@ -38,4 +37,35 @@ Example Response:
 
 ## Quickstart
 
-comming soon ...
+Easy to set up project run this command:
+
+```shell
+make init
+```
+
+## Useful Commands
+
+Start project
+
+```shell
+make up
+```
+
+Stop project
+
+```shell
+make stop
+```
+
+Clean project and all data
+
+```shell
+make clean
+```
+
+Run tests
+
+```shell
+make test
+```
+
