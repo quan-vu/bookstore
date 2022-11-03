@@ -35,6 +35,14 @@ Example Response:
 ]
 ```
 
+Example Database:
+
+- books: 4.935.193 unique records
+- authors: 936.971 unique records
+- publishers: 900.000 unique records
+
+
+
 ## Quickstart
 
 Easy to set up project run this command:
