@@ -19,7 +19,17 @@ class BookRepository extends BaseRepository
             ->with('authors:id,name')
             ->where('title', 'LIKE', "%$keyword%");
 
-        // return $query->get();
         return $query->paginate($limit);
+    }
+
+    public function getForIndex($limit = 10)
+    {
+        $query = $this->model->select('id', 'title', 'summary', 'publisher_id', 'indexed_at')
+            ->whereNull('indexed_at')
+            ->with('publisher:id,name')
+            ->with('authors:id,name')
+            ->limit($limit);
+
+        return $query->get();
     }
 }

@@ -51,6 +51,12 @@ Easy to set up project run this command:
 make init
 ```
 
+Index books to ElasticSearch:
+
+```shell
+make elastic-index-all-books
+```
+
 ## Useful Commands
 
 Start project

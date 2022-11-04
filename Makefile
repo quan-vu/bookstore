@@ -1,5 +1,8 @@
 export PROJECT_API=api
 
+elastic_index_all_books := $(shell for n in 'seq 1 1000'; do docker-compose exec ${PROJECT_API} php artisan elastic:index-books 1000 ;done)
+
+
 # Re-Initialize project from zero
 init:
 	@echo "\e[1;32mStep 1: Clean project all data, docker volumes, container\e[0m"
@@ -76,5 +79,9 @@ elastic-check:
 	# curl localhost:9200
 	docker-compose exec ${PROJECT_API} php artisan elastic:info
 
-elastic-index:
-	docker-compose exec ${PROJECT_API} php artisan elastic:index-books
+# Index 10.000 records
+elastic-index-books:
+	docker-compose exec ${PROJECT_API} php artisan elastic:index-books 10000
+
+elastic-index-all-books:
+	$(elastic_index_all_books)
