@@ -62,7 +62,6 @@ test-filter:
 controller:
 	docker-compose exec ${PROJECT_API} php artisan make:controller $$name
 
-
 seed-one:
 	docker-compose exec ${PROJECT_API} php artisan db:seed --class="$$name"
 
@@ -71,3 +70,11 @@ seed-sample-data:
 
 seed-books:
 	docker-compose exec ${PROJECT_API} php artisan db:seed --class=Database\\Seeders\\Sample\\SampleBookSeeder
+
+## ElasticSearch
+elastic-check:
+	# curl localhost:9200
+	docker-compose exec ${PROJECT_API} php artisan elastic:info
+
+elastic-index:
+	docker-compose exec ${PROJECT_API} php artisan elastic:index-books

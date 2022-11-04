@@ -77,3 +77,9 @@ Run tests
 make test
 ```
 
+## Reference 
+
+- PHP ElasticSearch 8.5.0: https://packagist.org/packages/elasticsearch/elasticsearch
+- Kibana 8.5.0: https://www.elastic.co/guide/en/kibana/8.5/docker.html
+
+
