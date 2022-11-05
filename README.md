@@ -51,11 +51,28 @@ Easy to set up project run this command:
 make init
 ```
 
-Index books to ElasticSearch:
+> After the project was initialized successfully, we need to import sample database with over 4 million unique books
+> Download sample database here: https://drive.google.com/drive/folders/1IElimDKEKbC90bUbOJE6O1dIToS87E6v?usp=sharing
+> To import to database I recommend to use MySQL Workbench.
+
+Index all books to ElasticSearch:
 
 ```shell
 make elastic-index-all-books
 ```
+
+Run Tests
+
+```shell
+make test
+```
+
+## Documentation
+
+We use Postman for create API Docs, let check this file:
+
+- BookStore.postman_collection.json
+- BookStore - Local.postman_environment.json
 
 ## Useful Commands
 
@@ -68,10 +85,10 @@ make up
 Stop project
 
 ```shell
-make stop
+make down
 ```
 
-Clean project and all data
+Clean project and all data, docker container
 
 ```shell
 make clean

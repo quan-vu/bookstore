@@ -1,6 +1,6 @@
 export PROJECT_API=api
 
-elastic_index_all_books := $(shell for n in 'seq 1 1000'; do docker-compose exec ${PROJECT_API} php artisan elastic:index-books 1000 ;done)
+elastic_index_all_books := $(shell for n in 'seq 1 1000'; do docker-compose exec ${PROJECT_API} php artisan elastic:index-books 10000 ; sleep 5; done)
 
 
 # Re-Initialize project from zero
@@ -84,4 +84,4 @@ elastic-index-books:
 	docker-compose exec ${PROJECT_API} php artisan elastic:index-books 10000
 
 elastic-index-all-books:
-	$(elastic_index_all_books)
+	python elastic_index.py

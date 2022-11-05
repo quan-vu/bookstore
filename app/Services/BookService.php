@@ -9,23 +9,25 @@ use Illuminate\Support\Collection;
 
 class BookService implements IBookService
 {
-    /**
-     * @var string
-     * Support search in these data sources: database | elasticsearch
-     */
-    private string $dataSource = 'database';
-
     private BookRepository $bookRepository;
+    private ElasticService $elasticService;
 
-    public function __construct(BookRepository $bookRepository)
+    public function __construct(
+        BookRepository $bookRepository,
+        ElasticService $elasticService
+    )
     {
         $this->bookRepository = $bookRepository;
+        $this->elasticService = $elasticService;
     }
 
-    public function search(string $keyword, int $limit = 10): Collection|LengthAwarePaginator
+    public function search(string $keyword, int $limit = 10, int $page = 1, string $searchEngine = null)
     {
-        $books = $this->bookRepository->search($keyword, $limit);
-
+        if (!$searchEngine) {
+            $books = $this->bookRepository->search($keyword, $limit, $page);
+        } else {
+            $books = $this->elasticService->searchBook($keyword, $limit, $page);
+        }
         return $books;
     }
 }

@@ -7,5 +7,5 @@ use Illuminate\Support\Collection;
 
 interface IBookService
 {
-    public function search(string $keyword, int $limit): Collection|LengthAwarePaginator;
+    public function search(string $keyword, int $limit, int $page = 1, string $searchEngine = null);
 }

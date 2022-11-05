@@ -38,6 +38,60 @@ class ElasticService
         return $this->client()->info()->asObject();
     }
 
+    public function searchBook(string $keyword, int $limit = 10, int $page = 1)
+    {
+        $offset = ($page - 1) * $limit;
+        $params = [
+            'index' => 'books',
+            'body'  => [
+                "from" => $offset,
+                "size" => $limit,
+                "track_total_hits" => true,
+                'query' => [
+                    // Search match title field only: total records = 222254, the same with search in MySQL database on sample database
+                    /*'match_phrase' => [
+                        'title' => $keyword
+                    ],*/
+                    // Search match title, publisher, author field: total records = 417621 on sample database
+                    "multi_match" => [
+                        "query" => $keyword,
+                        "fields" => ["title", "publisher", "authors"],
+                        "operator" => "or",
+                    ],
+                ]
+            ]
+        ];
+
+        $response = $this->client()->search($params);
+
+        $total = $response['hits']['total']['value'] ?? 0;
+
+        $items = $response['hits']['hits'] ?? [];
+        if (count($items)) {
+            $itemsFormat = collect($items)->map(function ($item, $key) {
+                return ['id' => intval($item['_id'])] + $item['_source'];
+            })->toArray();
+        }
+
+
+        return [
+            'total' => $total,
+            "current_page" => $page,
+            "per_page" => $limit,
+            "last_page" => ceil($total / $limit),
+            "prev_page_url" => null,
+            "next_page_url" => null,
+            'items' => $itemsFormat,
+            'spent_time' => "{$response['took']} ms",
+        ];
+
+        // return $response->asArray();
+        // printf("Total docs: %d\n", $response['hits']['total']['value']);
+        // printf("Max score : %.4f\n", $response['hits']['max_score']);
+        // printf("Took      : %d ms\n", $response['took']);
+        // print_r($response['hits']['hits']); // documents
+    }
+
     public function indexBook(Book $book): ?array
     {
         // Format book for index

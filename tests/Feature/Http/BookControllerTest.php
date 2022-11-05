@@ -36,7 +36,7 @@ class BookControllerTest extends TestCase
                     'title',
                     'summary',
                     'publisher',
-                    'authors' => ['*']
+                    'authors',
                 ]
             ]
         ]
@@ -53,8 +53,31 @@ class BookControllerTest extends TestCase
     public function test_search_book()
     {
         $keyword = 'a';
-        $route = route('api.book.search', ['keyword' => $keyword]);
+        $route = route('api.book.search', [
+            'keyword' => $keyword,
+            'per_page' => 10,
+            'page' => 1,
+        ]);
         echo "\tAPI - Book Search - {$route}\n";
+
+        $response = $this->getJson($route);
+
+        $response->assertOk();
+        if($response->json('data')) {
+            $response->assertJsonStructure($this->expectedBookListStruct);
+        }
+    }
+
+    public function test_search_book_with_elastic()
+    {
+        $keyword = 'a';
+        $route = route('api.book.search', [
+            'keyword' => $keyword,
+            'per_page' => 10,
+            'page' => 1,
+            'engine' => 1,
+        ]);
+        echo "\tAPI - Book Search with Elastic - {$route}\n";
 
         $response = $this->getJson($route);
 
