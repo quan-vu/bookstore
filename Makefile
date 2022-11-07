@@ -10,9 +10,10 @@ init:
 	@echo "\e[1;32mStep 2: Start project use Docker\e[0m"
 	@cp .env.local .env
 	docker-compose up -d
-	@echo "\e[1;32mStep 3: Sleep 10s to wating for mysql complete started\e[0m"
-	@sleep 10
+	@echo "\e[1;32mStep 3: Sleep 30s to wating for mysql complete started\e[0m"
+	@sleep 30
 	@echo "\e[1;32mStep 4: Setup Laravel project and migrate database\e[0m"
+	docker-compose exec ${PROJECT_API} composer install
 	docker-compose exec ${PROJECT_API} php artisan key:generate
 	docker-compose exec ${PROJECT_API} php artisan migrate
 	docker-compose exec ${PROJECT_API} php artisan key:generate --env=testing
