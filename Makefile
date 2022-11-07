@@ -18,8 +18,8 @@ init:
 	docker-compose exec ${PROJECT_API} php artisan migrate
 	docker-compose exec ${PROJECT_API} php artisan key:generate --env=testing
 	docker-compose exec ${PROJECT_API} php artisan migrate --env=testing
-	docker-compose exec ${PROJECT_API} chown -R $USER:1000 /var/www/html
-	docker-compose exec ${PROJECT_API} chmod o+w -R /var/www/html
+	docker-compose exec ${PROJECT_API} chown -R $$USER:1000 /var/www/html
+	docker-compose exec ${PROJECT_API} chmod -R 775 /var/www/html
 	docker-compose exec ${PROJECT_API} php artisan test
 
 up:
